@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{% endblock %}" />
+    <meta name="keywords" content="{% block keywords %}{% endblock %}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% block meta %}{% endblock %}
+
+
+    <!-- Styles -->
+    <link href="{% static "church/css/bootstrap.min.css" %}" rel="stylesheet" type="text/css" />
+    <link href="{% static "church/css/bootstrap-responsive.min.css" %}" rel="stylesheet" type="text/css" />
+
+    <link href="{% static "church/css/font-awesome.min.css" %}" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Arbutus+Slab|Josefin+Slab:400,700|Open+Sans:regular,semibold
+      italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic"
+      rel="stylesheet">
+
+    <link href="{% static "church/css/ui-lightness/jquery-ui-1.10.0.custom.min.css" %}" rel="stylesheet">
+
+    <link href="{% static "church/css/base-admin-2.css" %}" rel="stylesheet">
+    <link href="{% static "church/css/base-admin-2-responsive.css" %}" rel="stylesheet">
+    <link href="{% static "church/components/bootstrap-calendar/css/calendar.css" %}"
+          rel="stylesheet">
+
+    {% block extra_style %}{% endblock %}
+
+    <link href="{% static "church/css/custom.css" %}" rel="stylesheet">
+
+    <!-- Only for rare situation should we use css block -->
+    {% block extra_css %} {% endblock %}
+
+    <link rel="icon" href="{% static "church/img/favicon.ico" %}" type="image/x-icon" />
+    <link rel="shortcut-icon" href="{% static "church/img/favicon.ico" %}" type="image/x-icon" />
+    {% block extra_header %}{% endblock %}
+  </head>
+  <body {% block bodyattr %}{% endblock %}>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <i class="icon-cog"></i>
+          </a>
+          <a class="brand" href="/">
+            {{ site.name }} <sup> {{ version }}</sup>
+          </a>
+          <div class="nav-collapse">
+            <ul class="nav pull-right">
+              <li class="{% if page_type == 'home' %}active{% endif %}">
+                <a href="/">Home</a>
+              </li>
+              {{ request }}
+
+              <li  class="{% if page_type == 'interviews' %}active{% endif %}">
+                <a href="{% url "home" %}">Interviews</a>
+              </li>
+
+              <li  class="{% if page_type == 'exams' %}active{% endif %}">
+                  <a href="{% url "home" %}">Exams</a>
+              </li>
+              <li  class="{% if page_type == 'cases' %}active{% endif %}">
+                  <a href="{% url "home" %}">Cases</a>
+              </li>
+
+              <li>
+                  <a href="/admin/" target="_blank">Admin</a>
+              </li>
+
+
+                <li class="dropdown">
+
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <i class="icon-lightbulb"></i>
+                      Help & Support
+                      <b class="caret"></b>
+                  </a>
+
+                  <ul class="dropdown-menu">
+                      <li><a href="/help/">How to use church</a></li>
+                      <li><a href="/release-notes/">Release Notes</a></li>
+                      <li><a href="/todo/">Future Plan</a></li>
+                      <li class="divider"></li>
+                      <li><a href="https://github.com/tyrchen/church/issues" target="_blank">
+                          <i class="icon-flag"></i> Open an Issue</a></li>
+                  </ul>
+              </li>
+              <li class="">
+                <a href="/signout/">Sign out</a>
+              </li>
+
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div> <!-- /container -->
+      </div> <!-- /navbar-inner -->
+    </div> <!-- /navbar -->
+
+
+    {% block content %} {% endblock %}
+
+    <!-- starts footer -->
+
+    {% csrf_token %}
+    <!-- put js at the bottom of the file -->
+
+    <script type="text/javascript" src="{% static "church/components/jquery/jquery.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "church/components/lodash/lodash.js" %}"></script>
+    <script type="text/javascript" src="{% static "church/js/moment.min.js" %}"></script>
+    <script src={% static "church/js/libs/jquery-ui-1.10.0.custom.min.js" %}></script>
+    <script type="text/javascript" src="{% static "church/components/bootstrap/docs/assets/js/bootstrap.min.js" %}"></script>
+    <script type="text/javascript" src="
+    {% static "church/components/bootstrap-calendar/js/calendar.min.js" %}"></script>
+    <script type="text/javascript" src="
+    {% static "church/components/bootstrap-calendar/js/language/en-GB.js" %}"></script>
+    <script src="{% static "church/js/Application.js" %}"></script>
+
+    {% block extra_script %}
+    {% endblock %}
+
+    {% block extra_js %}
+    {% endblock %}
+
+  </body>
+</html>

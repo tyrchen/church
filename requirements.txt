@@ -1,0 +1,14 @@
+django
+django-extensions
+django-filter
+django-markdown
+django-taggit
+djangorestframework
+gunicorn
+markdown
+MySQL-python
+pyjade
+pyyaml
+requests
+south
+
