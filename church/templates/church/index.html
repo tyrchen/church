@@ -2,7 +2,7 @@
 {% load static %}
 {% load general_filters %}
 
-{% block title %}{{ report.name }} for {{ report.applicant }} by {{ report.manager }}{% endblock %}
+{% block title %}GNATS Report System{% endblock %}
 
 {% block extra_style %}
     <link href="{% static "church/css/pages/dashboard.css" %}" rel="stylesheet">
@@ -23,19 +23,19 @@
             <div class="widget-content">
                 <div class="stats">
                     <div class="stat">
-                        <a href="{% url "interviews" %}">
+                        <a href="{% url "home" %}">
                         <span class="stat-value">{{ stat.interviews }}</span>
                         Interviews</a>
                     </div> <!-- /stat -->
 
                     <div class="stat">
-                        <a href="{% url "exams" %}">
+                        <a href="{% url "home" %}">
                         <span class="stat-value">{{ stat.exams }}</span>
                         Exams</a>
                     </div> <!-- /stat -->
 
                     <div class="stat">
-                        <a href="{% url "cases" %}">
+                        <a href="{% url "home" %}">
                         <span class="stat-value">{{ stat.cases }}</span>
                         Cases</a>
                     </div> <!-- /stat -->
