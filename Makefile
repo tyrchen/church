@@ -11,7 +11,7 @@ ECHO=/bin/echo -e
 NPM=/usr/local/bin/npm
 PIP=/usr/bin/pip
 SUDO=/usr/bin/sudo
-VENV=~/.virtualenvs/$(PROJECT)/bin/activate
+VENV=/home/dev/.virtualenvs/$(PROJECT)/bin/activate
 
 
 remote_deploy:
@@ -19,7 +19,7 @@ remote_deploy:
 
 dependency:
 	@$(ECHO) "\nInstall project dependencies..."
-	. $(VENV); $(PIP) install -r requirements.txt
+	source $(VENV); $(PIP) install -r requirements.txt
 
 configuration:
 	@$(ECHO) "\nUpdate configuration..."
