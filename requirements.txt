@@ -1,3 +1,4 @@
+chartkick
 django
 django-extensions
 django-filter
