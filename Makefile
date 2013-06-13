@@ -19,7 +19,7 @@ remote_deploy:
 
 dependency:
 	@$(ECHO) "\nInstall project dependencies..."
-	source $(VENV); $(PIP) install -r requirements.txt
+	. $(VENV); $(PIP) install -r requirements.txt
 
 configuration:
 	@$(ECHO) "\nUpdate configuration..."
