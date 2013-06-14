@@ -11,15 +11,14 @@ ECHO=/bin/echo -e
 NPM=/usr/local/bin/npm
 PIP=/usr/bin/pip
 SUDO=/usr/bin/sudo
-VENV=/home/dev/.virtualenvs/$(PROJECT)/bin/activate
-
+VENV=~/.virtualenvs/$(PROJECT)/bin/activate
+ENTER_VENV=cd $(PATH); source $(VENV); pip install -r requirements.txt
 
 remote_deploy:
-	@$(SSH) -t $(SERVER) "echo Deploy $(PROJECT) to the $(SERVER) server.; cd $(PATH);  git pull; make deploy;"
+	@$(SSH) -t $(SERVER) "echo Deploy $(PROJECT) to the $(SERVER) server.; $(ENTER_VENV);  git pull; make deploy;"
 
 dependency:
 	@$(ECHO) "\nInstall project dependencies..."
-	. $(VENV); $(PIP) install -r requirements.txt
 
 configuration:
 	@$(ECHO) "\nUpdate configuration..."

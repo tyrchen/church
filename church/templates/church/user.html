@@ -1,0 +1,63 @@
+{% extends 'church/base.html' %}
+{% load static %}
+{% load general_tags %}
+
+{% block extra_style %}
+    <link href="{% static "church/components/x-editable/dist/bootstrap-editable/css/bootstrap-editable.css" %}"
+          rel="stylesheet">
+    <link href="{% static "church/css/pages/dashboard.css" %}" rel="stylesheet">
+    <style>
+      .editable-buttons {display: block; margin-top: 5px;}
+      table {background: white;}
+      .input-large {width: 360px;}
+      tr.green, tr.green a {color: #006400;}
+      tr.red, tr.red a {color: #d14;}
+      tr.orange, tr.orange a {color: orangered;}
+    </style>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="
+    {% static "church/components/x-editable/dist/bootstrap-editable/js/bootstrap-editable.min.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="main">
+    <div class="container">
+        <h2>{{ engineer.preferred_name }}'s PR</h2>
+
+
+        {% issue_table 'New Issues' new_issues engineer.uid %}
+
+        {% issue_table 'Working Issues' working_issues engineer.uid %}
+
+        {% issue_table 'Info Issues' info_issues engineer.uid True %}
+
+    </div>
+</div>
+{% endblock %}
+{% block extra_script %}
+    {% if user.username == engineer.uid %}
+    <script>
+      $(function() {
+          $.fn.editable.defaults.mode = 'inline';
+
+          $('.comment').editable({
+              params: { csrfmiddlewaretoken: '{{ csrf_token }}'}
+          });
+          $('.status').editable({
+              value: 'green',
+              source: [
+                  {value: 'green', text: 'green'},
+                  {value: 'orange', text: 'orange'},
+                  {value: 'red', text: 'red'}
+              ],
+              params: { csrfmiddlewaretoken: '{{ csrf_token }}'},
+              success: function(response, newValue) {
+                  $(this).closest('tr').attr('class', newValue);
+              }
+          });
+      })
+    </script>
+    {% endif %}
+{% endblock %}

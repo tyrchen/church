@@ -1,0 +1,45 @@
+<h3>{{ title }}</h3>
+{% if items %}
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+        <td style="width: 50px">Number</td>
+        <td style="width: 220px">Synopsis</td>
+        <td style="width: 50px">PL</td>
+        <td style="width: 100px;">Category</td>
+        <td style="width: 100px;">Platform</td>
+        {% if show_responsible %}
+        <td style="width: 100px">Responsible</td>
+        {% endif %}
+        <td>Comment</td>
+        <td style="width: 50px">Status</td></tr>
+    </thead>
+    <tbody>
+    {% for item in items %}
+        <tr class="{{ item.status }}">
+            <td><a href="https://gnats.juniper.net/web/default/{{ item.number }}" target="_blank">
+              {{ item.number }}</a></td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.level }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.platform }}</td>
+            {% if show_responsible %}
+            <td>{{ item.responsible }}</td>
+            {% endif %}
+            <td><a href="#" data-type="textarea" data-pk="{{ item.number }}"
+                   data-url="/users/{{ uid }}/" data-name="comment"
+                   class="editable-click editable-empty comment"
+                   data-original-title="Update comment">{{ item.comment }}</a></td>
+            <td>
+                <a href="#" data-type="select" data-pk="{{ item.number }}"
+                   data-url="/users/{{ uid }}/"  data-name="status"
+                   class="editable-click editable-empty status"
+                   data-original-title="Update status">{{ item.status }}</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% else %}
+    <p>N/A</p>
+{% endif %}

@@ -11,6 +11,7 @@ urlpatterns = patterns('',
                        url('^signin/$', SigninView.as_view(), name='signin'),
                        url('^signout/$', SignoutView.as_view(), name='signout'),
                        url(r'^admin/', include(admin.site.urls)),
+                       url(r'^users/', include('church.urls.users'))
                        )
 
 urlpatterns += patterns('django.contrib.flatpages.views',

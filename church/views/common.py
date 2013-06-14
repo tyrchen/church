@@ -26,6 +26,9 @@ class IndexView(TemplateView):
         context = super(IndexView, self).get_context_data(**kwargs)
         return context
 
+    def get(self, request, *args, **kwargs):
+        return HttpResponseRedirect('/users/%s' % request.user.username)
+
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(IndexView, self).dispatch(*args, **kwargs)
