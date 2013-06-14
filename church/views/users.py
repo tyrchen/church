@@ -5,8 +5,7 @@ import logging
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
 from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import View, TemplateView
+from django.views.generic import TemplateView
 import requests
 from settings import API_SERVER
 
