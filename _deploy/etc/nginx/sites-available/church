@@ -3,6 +3,9 @@ server {
   server_name gnats.jcnrd.us;
   access_log /var/log/nginx/church.access.log;
   error_log /var/log/nginx/church.error.log;
+  location /static/ {
+      root /home/dev/deployment/church/;
+    }
   location / {
     proxy_pass http://localhost:7008;
     include /etc/nginx/proxy_params;
