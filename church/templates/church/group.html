@@ -1,0 +1,34 @@
+{% extends 'church/base.html' %}
+{% load static %}
+{% load general_tags %}
+
+{% block extra_style %}
+    <style>
+        .editable-buttons {display: block; margin-top: 5px;}
+        table {background: white;}
+        .input-large {width: 360px;}
+        tr.good, tr.good a {color: #006400;}
+        tr.risky, tr.risky a {color: #d10;}
+        tr.normal {}
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <div class="main">
+        <div class="container">
+          {% for item in data %}
+            <div>
+            <h2>
+              <img src="{{ item.user.photo_url }}" width="60px" />
+              {{ item.user.preferred_name }}'s PR
+            </h2>
+
+
+            {% issue_table '' item.issues item.user.uid %}
+            </div>
+          {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}
