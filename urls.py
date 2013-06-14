@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
 from church.utils import const
-from church.views.common import StaticFileView, IndexView, SigninView, SignoutView
+from church.views.common import IndexView, SigninView, SignoutView, DocFileView, HelpFileView
 
 admin.autodiscover()
 
@@ -15,5 +15,6 @@ urlpatterns = patterns('',
                        )
 
 urlpatterns += patterns('django.contrib.flatpages.views',
-                        url(r'^help/%s/$' % const.MATCH_TEXT, StaticFileView.as_view(), name='help')
+                        url(r'^help/%s/$' % const.MATCH_TEXT, HelpFileView.as_view(), name='help'),
+                        url(r'^doc/%s/$' % const.MATCH_TEXT, DocFileView.as_view(), name='doc')
                         )

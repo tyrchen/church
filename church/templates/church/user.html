@@ -10,9 +10,9 @@
       .editable-buttons {display: block; margin-top: 5px;}
       table {background: white;}
       .input-large {width: 360px;}
-      tr.green, tr.green a {color: #006400;}
-      tr.red, tr.red a {color: #d14;}
-      tr.orange, tr.orange a {color: orangered;}
+      tr.good, tr.good a {color: #006400;}
+      tr.risky, tr.risky a {color: #d10;}
+      tr.normal {}
     </style>
 {% endblock %}
 
@@ -46,11 +46,11 @@
               params: { csrfmiddlewaretoken: '{{ csrf_token }}'}
           });
           $('.status').editable({
-              value: 'green',
+              value: 'normal',
               source: [
-                  {value: 'green', text: 'green'},
-                  {value: 'orange', text: 'orange'},
-                  {value: 'red', text: 'red'}
+                  {value: 'normal', text: 'normal'},
+                  {value: 'good', text: 'good'},
+                  {value: 'risky', text: 'risky'}
               ],
               params: { csrfmiddlewaretoken: '{{ csrf_token }}'},
               success: function(response, newValue) {

@@ -53,7 +53,8 @@
               <li class="{% if page_type == 'home' %}active{% endif %}">
                 <a href="/">Home</a>
               </li>
-              {{ request }}
+
+              <!--
 
               <li  class="{% if page_type == 'interviews' %}active{% endif %}">
                 <a href="{% url "home" %}">Interviews</a>
@@ -70,8 +71,9 @@
                   <a href="/admin/" target="_blank">Admin</a>
               </li>
 
+              -->
 
-                <li class="dropdown">
+              <li class="dropdown">
 
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                       <i class="icon-lightbulb"></i>
@@ -80,9 +82,10 @@
                   </a>
 
                   <ul class="dropdown-menu">
-                      <li><a href="/help/">How to use church</a></li>
-                      <li><a href="/release-notes/">Release Notes</a></li>
-                      <li><a href="/todo/">Future Plan</a></li>
+                      <li><a href="/help/readme/">How to use church</a></li>
+                      <li><a href="/help/release-notes/">Release Notes</a></li>
+                      <li><a href="/doc/todo/">Future Plan</a></li>
+                      <li><a href="/doc/idea/">Idea Behind the Project</a></li>
                       <li class="divider"></li>
                       <li><a href="https://github.com/tyrchen/church/issues" target="_blank">
                           <i class="icon-flag"></i> Open an Issue</a></li>
