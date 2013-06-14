@@ -26,12 +26,9 @@
     <div class="container">
         <h2>{{ engineer.preferred_name }}'s PR</h2>
 
-
-        {% issue_table 'New Issues' new_issues engineer.uid %}
-
-        {% issue_table 'Working Issues' working_issues engineer.uid %}
-
-        {% issue_table 'Info Issues' info_issues engineer.uid True %}
+        {% for issues in issue_lists %}
+          {% issue_table issues.0 issues.1 engineer.uid %}
+        {% endfor %}
 
     </div>
 </div>

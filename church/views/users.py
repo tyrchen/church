@@ -28,28 +28,34 @@ class UserView(TemplateView):
         new_issues = []
         working_issues = []
         info_issues = []
+        done_issues = []
 
         for item in data:
             if item['state'] == 'open':
                 new_issues.append(item)
             elif item['responsible'] == uid:
                 working_issues.append(item)
+            elif item['state'] == 'feedback' or item['state'] == 'monitored':
+                done_issues.append(item)
             else:
                 info_issues.append(item)
 
-        return new_issues, working_issues, info_issues
+        return [
+            ('Open Issues', new_issues),
+            ('Working Issues', working_issues),
+            ('Info Issues', info_issues),
+            ('Done Issues (Monitored, Feedback)', done_issues)
+        ]
 
     def get_context_data(self, **kwargs):
         uid = self.kwargs['text']
 
-        new_issues, working_issues, info_issues = self.get_pr_list(uid)
+        issue_lists = self.get_pr_list(uid)
         user = self.get_user(uid)
 
         context = super(UserView, self).get_context_data(**kwargs)
 
-        context['new_issues'] = new_issues
-        context['working_issues'] = working_issues
-        context['info_issues'] = info_issues
+        context['issue_lists'] = issue_lists
         context['engineer'] = user
 
         return context
