@@ -56,6 +56,7 @@ class UserView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         uid = self.kwargs['text']
+        user = self.get_user(uid)
         number = request.POST.get('pk')
         if request.user.username == uid:
             name = request.POST.get('name')
@@ -65,6 +66,11 @@ class UserView(TemplateView):
             headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
             r = requests.put(url, data=json.dumps(data), headers=headers)
             if r.status_code == 200:
+                if name == 'comment':
+                    # user updated the comment, so we add a progress record
+                    progress_url = API_SERVER + '/gnats/progresses/%s.json' % number
+                    data = {'uid': uid, 'progress': value, 'manager': user['manager_uid']}
+                    r = requests.post(progress_url, data=json.dumps(data), headers=headers)
                 return HttpResponse('{}')
             else:
                 return HttpResponseBadRequest('Cannot update PR %s' % number)

@@ -10,7 +10,9 @@ from django.contrib.sites.models import Site
 
 def site(request):
     import church
+    from django.conf import settings
     return {
         'site': Site.objects.get_current(),
         'version': church.__version__,
+        'groups': settings.GROUPS
     }

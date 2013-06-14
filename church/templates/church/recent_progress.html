@@ -17,17 +17,9 @@
 {% block content %}
     <div class="main">
         <div class="container">
-          <h3>To see the recent daily progress, please click <a href="/groups/{{ group }}/recent/"> here </a>.</h3>
-          {% for item in data %}
-            <div>
-            <h2>
-              <img src="{{ item.user.photo_url }}" width="60px" />
-              {{ item.user.preferred_name }}'s PR
-            </h2>
 
-
-            {% issue_table '' item.issues item.user.uid %}
-            </div>
+          {% for item in items %}
+            {% progress_table item.day item.updates %}
           {% endfor %}
 
         </div>

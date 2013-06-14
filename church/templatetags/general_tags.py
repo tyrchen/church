@@ -19,3 +19,11 @@ def issue_table(title, issues, uid, show_responsible=False):
         'uid': uid,
         'show_responsible': show_responsible
     }
+
+@register.inclusion_tag('church/ttags/progress_table.html')
+def progress_table(day, items):
+    title = '%s updates:' % day
+    return {
+        'title': title,
+        'items': items,
+    }

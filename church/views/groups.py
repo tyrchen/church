@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from datetime import datetime
 import json
 import logging
 from django.contrib.auth.decorators import login_required
@@ -21,7 +22,6 @@ class GroupView(TemplateView):
     def get_pr_list(self, uid):
         return requests.get(API_SERVER + '/gnats/%s.json' % uid).json()
 
-
     def get_context_data(self, **kwargs):
         group = self.kwargs['text']
 
@@ -35,6 +35,7 @@ class GroupView(TemplateView):
         context = super(GroupView, self).get_context_data(**kwargs)
 
         context['data'] = data
+        context['group'] = group
 
         return context
 
@@ -43,3 +44,47 @@ class GroupView(TemplateView):
         return super(GroupView, self).dispatch(*args, **kwargs)
 
 
+class GroupProgressView(TemplateView):
+    template_name = 'church/progress.html'
+
+    def get_context_data(self, **kwargs):
+        group = self.kwargs['text']
+        day = self.kwargs['text1']
+        data = requests.get(API_SERVER + '/gnats/progresses/%s/%s.json' % (group, day)).json()
+
+        context = super(GroupProgressView, self).get_context_data(**kwargs)
+
+        context['manager'] = group
+
+        if data:
+            d = data[0]
+            context['day'] = d['day'].split('T')[0]
+            context['items'] = d['updates'].values()
+
+        return context
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(GroupProgressView, self).dispatch(*args, **kwargs)
+
+
+class GroupRecentProgressView(TemplateView):
+    template_name = 'church/recent_progress.html'
+
+    def get_context_data(self, **kwargs):
+        group = self.kwargs['text']
+        data = requests.get(API_SERVER + '/gnats/progresses/%s/recent.json' % group).json()
+
+        context = super(GroupRecentProgressView, self).get_context_data(**kwargs)
+
+        items = []
+        context['manager'] = group
+        for item in data:
+            items.append({'day': item['day'].split('T')[0], 'updates': item['updates'].values()})
+
+        context['items'] = items
+        return context
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(GroupRecentProgressView, self).dispatch(*args, **kwargs)

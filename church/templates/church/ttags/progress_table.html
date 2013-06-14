@@ -1,0 +1,28 @@
+<h2>{{ title }}</h2>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+    <tr>
+        <td style="width: 50px">Number</td>
+        <td style="width: 100px">Engineer</td>
+        <td style="width: 220px">Synopsis</td>
+        <td style="width: 50px">PL</td>
+        <td style="width: 100px;">Category</td>
+        <td style="width: 100px;">Platform</td>
+        <td style="width: 50px">Progress</td></tr>
+    </thead>
+    <tbody>
+    {% for item in items %}
+        <tr>
+            <td><a style="text-decoration: underline;" href="https://gnats.juniper.net/web/default/{{ item.number }}" target="_blank">
+              {{ item.number }}</a></td>
+            <td>{{ item.uid }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.level }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.platform }}</td>
+            <td>{{ item.progress }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
