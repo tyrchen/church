@@ -156,8 +156,8 @@ REPORT_TEMPLATE = 'general.md'
 
 LOGIN_URL = '/signin/'
 
-#API_SERVER = 'http://api.jcnrd.us'
-API_SERVER = 'http://localhost:6080'
+API_SERVER = 'http://api.jcnrd.us'
+#API_SERVER = 'http://localhost:6080'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
