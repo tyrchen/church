@@ -10,6 +10,7 @@
         tr.good, tr.good a {color: #006400;}
         tr.risky, tr.risky a {color: #d10;}
         tr.normal {}
+        hr {color: #ccc; border-color: #ddd;}
     </style>
 {% endblock %}
 
@@ -17,13 +18,14 @@
 {% block content %}
     <div class="main">
         <div class="container">
-
+            <h1>{{ team }}</h1>
+            <hr/>
           {% for item in data %}
             <div>
-            <h2>
+            <h3>
               <img src="{{ item.user.photo_url }}" width="60px" />
               {{ item.user.preferred_name }}'s PR
-            </h2>
+            </h3>
 
 
             {% issue_table '' item.issues item.user.uid %}

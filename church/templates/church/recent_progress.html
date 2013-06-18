@@ -10,6 +10,7 @@
         tr.good, tr.good a {color: #006400;}
         tr.risky, tr.risky a {color: #d10;}
         tr.normal {}
+        hr {color: #ccc; border-color: #ddd;}
     </style>
 {% endblock %}
 
@@ -17,7 +18,8 @@
 {% block content %}
     <div class="main">
         <div class="container">
-
+          <h1>{{ team }}</h1>
+          <hr/>
           {% for item in items %}
             {% progress_table item.day item.updates %}
           {% endfor %}
