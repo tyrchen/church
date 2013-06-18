@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import logging
+from church.models import Team
 
 __author__ = 'tchen'
 logger = logging.getLogger(__name__)
@@ -14,5 +15,5 @@ def site(request):
     return {
         'site': Site.objects.get_current(),
         'version': church.__version__,
-        'groups': settings.GROUPS
+        'groups': Team.objects.all()
     }

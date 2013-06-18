@@ -1,1 +1,5 @@
-__author__ = 'tchen'
+from team import Team
+
+__all__ = [
+    Team
+]

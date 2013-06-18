@@ -81,7 +81,7 @@
 
                   <ul class="dropdown-menu">
                       {% for g in groups %}
-                      <li><a href="/groups/{{ g }}/">{{ g }}</a></li>
+                      <li><a href="/groups/{{ g.slug }}/">{{ g.name }}</a></li>
                       {% endfor %}
                   </ul>
               </li>
@@ -94,7 +94,7 @@
 
                   <ul class="dropdown-menu">
                       {% for g in groups %}
-                      <li><a href="/groups/{{ g }}/recent/">{{ g }}</a></li>
+                      <li><a href="/groups/{{ g.slug }}/recent/">{{ g.name }}</a></li>
                       {% endfor %}
                   </ul>
               </li>

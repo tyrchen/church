@@ -13,10 +13,6 @@ __author__ = 'tchen'
 logger = logging.getLogger(__name__)
 
 
-def redirect_user(user):
-    return HttpResponseRedirect('/')
-
-
 class UserView(TemplateView):
     template_name = 'church/user.html'
 
@@ -75,7 +71,7 @@ class UserView(TemplateView):
                 if name == 'comment':
                     # user updated the comment, so we add a progress record
                     progress_url = API_SERVER + '/gnats/progresses/%s.json' % number
-                    data = {'uid': uid, 'progress': value, 'manager': user['manager_uid']}
+                    data = {'uid': uid, 'progress': value, 'team': user['team']}
                     r = requests.post(progress_url, data=json.dumps(data), headers=headers)
                 return HttpResponse('{}')
             else:

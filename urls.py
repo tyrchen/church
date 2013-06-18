@@ -12,7 +12,7 @@ urlpatterns = patterns('',
                        url('^signout/$', SignoutView.as_view(), name='signout'),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^users/', include('church.urls.users')),
-                       url(r'^groups/', include('church.urls.groups'))
+                       url(r'^groups/', include('church.urls.teams'))
                        )
 
 urlpatterns += patterns('django.contrib.flatpages.views',

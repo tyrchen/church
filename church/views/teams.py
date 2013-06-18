@@ -13,48 +13,48 @@ __author__ = 'tchen'
 logger = logging.getLogger(__name__)
 
 
-class GroupView(TemplateView):
-    template_name = 'church/group.html'
+class TeamView(TemplateView):
+    template_name = 'church/team.html'
 
-    def get_users(self, group):
-        return requests.get(API_SERVER + '/directory/groups/%s.json' % group).json()
+    def get_users(self, team):
+        return requests.get(API_SERVER + '/directory/teams/%s.json' % team).json()
 
     def get_pr_list(self, uid):
         return requests.get(API_SERVER + '/gnats/%s.json' % uid).json()
 
     def get_context_data(self, **kwargs):
-        group = self.kwargs['text']
+        team = self.kwargs['text']
 
-        users = self.get_users(group)
+        users = self.get_users(team)
 
         data = []
         for user in users['members']:
             issues = self.get_pr_list(user['uid'])
             data.append({'user': user, 'issues': issues})
 
-        context = super(GroupView, self).get_context_data(**kwargs)
+        context = super(TeamView, self).get_context_data(**kwargs)
 
         context['data'] = data
-        context['group'] = group
+        context['team'] = team
 
         return context
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        return super(GroupView, self).dispatch(*args, **kwargs)
+        return super(TeamView, self).dispatch(*args, **kwargs)
 
 
-class GroupProgressView(TemplateView):
+class TeamProgressView(TemplateView):
     template_name = 'church/progress.html'
 
     def get_context_data(self, **kwargs):
-        group = self.kwargs['text']
+        team = self.kwargs['text']
         day = self.kwargs['text1']
-        data = requests.get(API_SERVER + '/gnats/progresses/%s/%s.json' % (group, day)).json()
+        data = requests.get(API_SERVER + '/gnats/progresses/%s/%s.json' % (team, day)).json()
 
-        context = super(GroupProgressView, self).get_context_data(**kwargs)
+        context = super(TeamProgressView, self).get_context_data(**kwargs)
 
-        context['manager'] = group
+        context['team'] = team
 
         if data:
             d = data[0]
@@ -65,20 +65,20 @@ class GroupProgressView(TemplateView):
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        return super(GroupProgressView, self).dispatch(*args, **kwargs)
+        return super(TeamProgressView, self).dispatch(*args, **kwargs)
 
 
-class GroupRecentProgressView(TemplateView):
+class TeamRecentProgressView(TemplateView):
     template_name = 'church/recent_progress.html'
 
     def get_context_data(self, **kwargs):
-        group = self.kwargs['text']
-        data = requests.get(API_SERVER + '/gnats/progresses/%s/recent.json' % group).json()
+        team = self.kwargs['text']
+        data = requests.get(API_SERVER + '/gnats/progresses/%s/recent.json' % team).json()
 
-        context = super(GroupRecentProgressView, self).get_context_data(**kwargs)
+        context = super(TeamRecentProgressView, self).get_context_data(**kwargs)
 
         items = []
-        context['manager'] = group
+        context['team'] = team
         for item in data:
             items.append({'day': item['day'].split('T')[0], 'updates': item['updates'].values()})
 
@@ -87,4 +87,4 @@ class GroupRecentProgressView(TemplateView):
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        return super(GroupRecentProgressView, self).dispatch(*args, **kwargs)
+        return super(TeamRecentProgressView, self).dispatch(*args, **kwargs)
