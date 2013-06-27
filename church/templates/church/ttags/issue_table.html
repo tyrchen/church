@@ -19,8 +19,13 @@
     <tbody>
     {% for item in items %}
         <tr class="{{ item.status }}">
-            <td><a style="text-decoration: underline;" href="https://gnats.juniper.net/web/default/{{ item.number }}" target="_blank">
-              {{ item.number }}</a></td>
+            <td>
+                {% if item.worker %}
+                <span> * </span>
+                {% endif %}
+                <a style="text-decoration: underline;" href="https://gnats.juniper.net/web/default/{{ item.number }}" target="_blank">
+              {{ item.number }}</a>
+            </td>
             <td>{{ item.title }}</td>
             <td>{{ item.level }}</td>
             <td>{{ item.category }}</td>

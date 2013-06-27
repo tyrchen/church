@@ -5,7 +5,7 @@ import logging
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
 from django.utils.decorators import method_decorator
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 import requests
 from settings import API_SERVER
 
@@ -84,3 +84,22 @@ class UserView(TemplateView):
         return super(UserView, self).dispatch(*args, **kwargs)
 
 
+class UserAddWorkingPRView(View):
+    url = 'http://scrapy.jcnrd.us/schedule.json'
+
+    def post(self, request, *args, **kwargs):
+        items = request.POST.get('items')
+        if request.user.username == self.kwargs['text']:
+            items = map(lambda x: x.strip(), items.split(','))
+
+            for item in items:
+                payload = {'project': 'gnats', 'spider': 'worker_pr', 'uid': request.user.username, 'number': item}
+                requests.post(self.url, payload)
+
+            return HttpResponse(json.dumps({'status': 'ok'}))
+
+        return HttpResponseBadRequest('Cannot update PR %s' % items)
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(UserAddWorkingPRView, self).dispatch(*args, **kwargs)

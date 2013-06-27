@@ -25,7 +25,9 @@
 <div class="main">
     <div class="container">
         <h2>{{ engineer.preferred_name }}'s PR</h2>
-
+        {% if user.username == engineer.uid %}
+        <a id="add_working_pr">Add your working PRs which are not in the list</a>
+        {% endif %}
         {% for issues in issue_lists %}
           {% issue_table issues.0 issues.1 engineer.uid %}
         {% endfor %}
@@ -54,6 +56,16 @@
                   $(this).closest('tr').attr('class', newValue);
               }
           });
+
+          $('#add_working_pr').click(function() {
+              var items = prompt("Input PRs your want to add, separated with comma (e.g. 880300-2,739421)");
+              if (items && $.trim(items)) {
+                var data = {items:items, csrfmiddlewaretoken: '{{ csrf_token }}'};
+                $.post('/users/{{ user.username }}/add-pr/', data, function(data) {
+                    alert(items + ' are being processed. You should see them in a few minutes.');
+                })
+              }
+          })
       })
     </script>
     {% endif %}
