@@ -17,6 +17,7 @@ def issue_table(title, issues, uid, show_responsible=False):
         'title': title,
         'items': issues,
         'uid': uid,
+        'total': len(issues),
         'show_responsible': show_responsible
     }
 

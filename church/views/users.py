@@ -53,6 +53,7 @@ class UserView(TemplateView):
 
         context['issue_lists'] = issue_lists
         context['engineer'] = user
+        context['total'] = sum(map(lambda x: len(x[1]), issue_lists))
 
         return context
 

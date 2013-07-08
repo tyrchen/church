@@ -24,7 +24,7 @@
 {% block content %}
 <div class="main">
     <div class="container">
-        <h2>{{ engineer.preferred_name }}'s PR</h2>
+        <h2>{{ engineer.preferred_name }}'s PR ({{ total }})</h2>
         {% if user.username == engineer.uid %}
         <a id="add_working_pr">Add your working PRs which are not in the list</a>
         {% endif %}

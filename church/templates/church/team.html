@@ -18,13 +18,13 @@
 {% block content %}
     <div class="main">
         <div class="container">
-            <h1>{{ team }}</h1>
+            <h1>{{ team }} ({{ total }})</h1>
             <hr/>
           {% for item in data %}
             <div>
             <h3>
               <img src="{{ item.user.photo_url }}" width="60px" />
-              {{ item.user.preferred_name }}'s PR
+              {{ item.user.preferred_name }}'s PR ({{ item.total }})
             </h3>
 
 

@@ -30,12 +30,13 @@ class TeamView(TemplateView):
         data = []
         for user in users['members']:
             issues = self.get_pr_list(user['uid'])
-            data.append({'user': user, 'issues': issues})
+            data.append({'user': user, 'issues': issues, 'total': len(issues)})
 
         context = super(TeamView, self).get_context_data(**kwargs)
 
         context['data'] = data
         context['team'] = team
+        context['total'] = sum(map(lambda x: len(x['issues']), data))
 
         return context
 
