@@ -87,10 +87,20 @@
     {% endif %}
     <script>
       $(function() {
-          var url_base = 'http://api.jcnrd.us/gnats/';
+          var chart_shown = false;
+          $('a[data-toggle="tab"]').on('shown', function (e) {
+              if($(this).attr('href') == '#tab-charts') {
+                  if(!chart_shown) {
+                      var url_base = 'http://api.jcnrd.us/gnats/';
 
-          state_distribution(url_base +"{{ engineer.uid }}" + ".json?all=1", '{{ engineer.uid }}',
-                  transform_level_state);
+                      state_distribution(url_base +"{{ engineer.uid }}" + ".json?all=1", '{{ engineer.uid }}',
+                              transform_level_state);
+                  }
+                  chart_shown = true;
+
+              }
+          })
+
       })
     </script>
 {% endblock %}

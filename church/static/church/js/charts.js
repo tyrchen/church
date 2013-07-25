@@ -103,6 +103,5 @@ function transform_level_state(data) {
         series[pos].data[categories[state]]++;
     })
 
-    console.log(series);
     return series;
 }
