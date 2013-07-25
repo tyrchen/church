@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from datetime import datetime
+from dateutil.parser import parse
 import json
 import logging
 from django.contrib.auth.decorators import login_required
@@ -12,6 +14,7 @@ from settings import API_SERVER
 __author__ = 'tchen'
 logger = logging.getLogger(__name__)
 
+last_updater_ignore = ['gnats', 'slt-builder']
 
 class UserView(TemplateView):
     template_name = 'church/user.html'
@@ -19,15 +22,28 @@ class UserView(TemplateView):
     def get_user(self, uid):
         return requests.get(API_SERVER + '/directory/employees/%s.json' % uid).json()
 
+    def action_required(self, item):
+        updater = item.get('last_updater', '')
+        modified = parse(item['modified_at']).replace(tzinfo=None)
+        now = datetime.now()
+        if updater not in last_updater_ignore and updater != item['dev_owner'] and (now - modified).days < 5 and \
+                item['responsible'] == item['dev_owner']:
+            return True
+        return False
+
     def get_pr_list(self, uid):
         data = requests.get(API_SERVER + '/gnats/%s.json' % uid).json()
+        action_required_issues = []
         new_issues = []
         working_issues = []
         info_issues = []
         done_issues = []
 
         for item in data:
-            if item['state'] == 'open':
+
+            if self.action_required(item):
+                action_required_issues.append(item)
+            elif item['state'] == 'open':
                 new_issues.append(item)
             elif item['responsible'] == uid:
                 working_issues.append(item)
@@ -37,6 +53,7 @@ class UserView(TemplateView):
                 info_issues.append(item)
 
         return [
+            ('Action Required Iusses', action_required_issues),
             ('Open Issues', new_issues),
             ('Working Issues', working_issues),
             ('Info Issues', info_issues),

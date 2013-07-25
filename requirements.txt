@@ -9,6 +9,7 @@ gunicorn
 markdown
 MySQL-python
 pyjade
+python-dateutil
 pyyaml
 requests
 south
