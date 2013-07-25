@@ -24,18 +24,34 @@
 {% block content %}
 <div class="main">
     <div class="container">
-        <h2>{{ engineer.preferred_name }}'s PR ({{ total }})</h2>
-        {% if user.username == engineer.uid %}
-        <a id="add_working_pr">Add your working PRs which are not in the list</a>
-        {% endif %}
-        {% for issues in issue_lists %}
-          {% issue_table issues.0 issues.1 engineer.uid %}
-        {% endfor %}
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab-prs" data-toggle="tab">PR lists</a></li>
+                <li><a href="#tab-charts" data-toggle="tab">PR statistics</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab-prs">
+                    <h2>{{ engineer.preferred_name }}'s PR ({{ total }})</h2>
+                    {% if user.username == engineer.uid %}
+                        <a id="add_working_pr">Add your working PRs which are not in the list</a>
+                    {% endif %}
+                    {% for issues in issue_lists %}
+                      {% issue_table issues.0 issues.1 engineer.uid %}
+                    {% endfor %}
+                </div>
+                <div class="tab-pane" id="tab-charts">
+
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>
 {% endblock %}
 {% block extra_script %}
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="{% static "church/js/charts.js" %}"
     {% if user.username == engineer.uid %}
     <script>
       $(function() {
@@ -69,4 +85,11 @@
       })
     </script>
     {% endif %}
+    <script>
+      $(function() {
+          var url_base = 'http://api.jcnrd.us/gnats/';
+
+          state_distribution(url_base +"{{ engineer.uid }}" + ".json", '{{ engineer.uid }}', transform_level_state);
+      })
+    </script>
 {% endblock %}
