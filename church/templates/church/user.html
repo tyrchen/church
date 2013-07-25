@@ -89,7 +89,8 @@
       $(function() {
           var url_base = 'http://api.jcnrd.us/gnats/';
 
-          state_distribution(url_base +"{{ engineer.uid }}" + ".json", '{{ engineer.uid }}', transform_level_state);
+          state_distribution(url_base +"{{ engineer.uid }}" + ".json?all=1", '{{ engineer.uid }}',
+                  transform_level_state);
       })
     </script>
 {% endblock %}
