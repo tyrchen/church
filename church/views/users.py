@@ -14,7 +14,7 @@ from settings import API_SERVER
 __author__ = 'tchen'
 logger = logging.getLogger(__name__)
 
-last_updater_ignore = ['gnats', 'slt-builder', 'JASMINE Notification <']
+last_updater_ignore = ['gnats', 'slt-builder', 'JASMINE Notification <', 'builder']
 
 class UserView(TemplateView):
     template_name = 'church/user.html'
