@@ -18,21 +18,66 @@
 {% block content %}
     <div class="main">
         <div class="container">
-            <h1>{{ team }} ({{ total }})</h1>
-            <hr/>
-          {% for item in data %}
-            <div>
-            <h3>
-              <img src="{{ item.user.photo_url }}" width="60px" />
-              <a href='/users/{{ item.user.uid }}/' target="_blank"> {{ item.user.preferred_name }}'s PR
-                ({{ item.total }}) </a>
-            </h3>
+            <div class="tabbable">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab-prs" data-toggle="tab">PR lists</a></li>
+                    <li><a href="#tab-charts" data-toggle="tab">PR statistics</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab-prs">
+                        <h1>{{ team }} ({{ total }})</h1>
+                        <hr/>
+                        {% for item in data %}
+                            <div>
+                                <h3>
+                                    <img src="{{ item.user.photo_url }}" width="60px" />
+                                    <a href='/users/{{ item.user.uid }}/' target="_blank"> {{ item.user.preferred_name }}'s PR
+                                        ({{ item.total }}) </a>
+                                </h3>
 
 
-            {% issue_table '' item.issues item.user.uid %}
+                              {% issue_table '' item.issues item.user.uid %}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="tab-pane" id="tab-charts">
+
+                    </div>
+                </div>
             </div>
-          {% endfor %}
-
         </div>
     </div>
+{% endblock %}
+
+{% block extra_script %}
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="{% static "church/js/utils.js" %}"></script>
+    <script src="{% static "church/js/charts.js" %}"></script>
+
+    <script>
+        $(function() {
+            var chart_shown = false;
+            var url_base = 'http://api.jcnrd.us/gnats/stats/t/';
+            //var url_base = 'http://localhost:6080/gnats/stats/t/';
+
+            $('a[data-toggle="tab"]').on('shown', function (e) {
+                if($(this).attr('href') == '#tab-charts') {
+                    if(!chart_shown) {
+                        $.getJSON(url_base +"{{ team }}" + ".json", function(data) {
+                            var subtitle = 'Year ' + moment().year();
+                            catchup_chart(data, subtitle, transform_date_weekly);
+                            state_distribution_chart(data, subtitle, transform_level_state);
+                        })
+
+                    }
+                    chart_shown = true;
+
+                }
+            })
+
+        })
+    </script>
 {% endblock %}

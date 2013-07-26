@@ -1,9 +1,6 @@
 TODO
 ====
 
-## User Posted PRs
-
-User can post PRs for those she is working, yet not belong to herself.
 
 ## Visual Graphics
 

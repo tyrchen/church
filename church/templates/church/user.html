@@ -51,7 +51,9 @@
 {% block extra_script %}
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="{% static "church/js/utils.js" %}"></script>
     <script src="{% static "church/js/charts.js" %}"></script>
+
     {% if user.username == engineer.uid %}
     <script>
       $(function() {
@@ -88,13 +90,18 @@
     <script>
       $(function() {
           var chart_shown = false;
+          var url_base = 'http://api.jcnrd.us/gnats/stats/u/';
+          //var url_base = 'http://localhost:6080/gnats/stats/u/';
+
           $('a[data-toggle="tab"]').on('shown', function (e) {
               if($(this).attr('href') == '#tab-charts') {
                   if(!chart_shown) {
-                      var url_base = 'http://api.jcnrd.us/gnats/';
+                      $.getJSON(url_base +"{{ engineer.uid }}" + ".json", function(data) {
+                          var subtitle = 'Year ' + moment().year();
+                          catchup_chart(data, subtitle, transform_date_weekly);
+                          state_distribution_chart(data, subtitle, transform_level_state);
+                      })
 
-                      state_distribution(url_base +"{{ engineer.uid }}" + ".json?all=1", '{{ engineer.uid }}',
-                              transform_level_state);
                   }
                   chart_shown = true;
 

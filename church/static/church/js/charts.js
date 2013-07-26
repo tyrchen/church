@@ -1,50 +1,17 @@
-
-function chart(config) {
-    function render(series) {
-        config.container.highcharts({
-            chart: {
-                type: config.type
-            },
-            title: {
-                text: config.title
-            },
-            subtitle: {
-                text: config.subtitle
-            },
-            xAxis: config.xAxis,
-            yAxis: config.yAxis,
-            tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y}</b></td></tr>',
-                footerFormat: '</table>',
-                shared: true,
-                useHTML: true
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                }
-            },
-            series: series
-        });
-    }
-    if (config.url) {
-        $.getJSON(config.url, function(items) {
-            var series = config.transform(items);
-            render(series);
-        })
-    } else {
-        render(config.series);
-    }
-
-}
-
-function state_distribution(url, subtitle, transform) {
+// state column chart
+function state_distribution_chart(url_or_raw_data, subtitle, transform) {
     var name = "chart-state-distribution";
+    var url = '';
+    var raw_data = null;
+
     var container = $('<div id="' + name + '" style="width: 100%; height: 400px; margin: 0 auto"></div>')
         .appendTo('#tab-charts');
+
+    if (typeof url_or_raw_data == 'string' || url_or_raw_data instanceof String) {
+        url = url_or_raw_data;
+    } else {
+        raw_data = url_or_raw_data;
+    }
 
     var config = {
         container: container,
@@ -61,6 +28,48 @@ function state_distribution(url, subtitle, transform) {
             }
         },
         url: url,
+        raw_data: raw_data,
+        transform: transform
+    }
+    chart(config);
+}
+
+// open/resolve line chart
+function catchup_chart(url_or_raw_data, subtitle, transform) {
+    var name = "chart-catchup";
+    var url = '';
+    var raw_data = null;
+
+    var container = $('<div id="' + name + '" style="width: 100%; height: 400px; margin: 0 auto"></div>')
+        .appendTo('#tab-charts');
+
+    if (typeof url_or_raw_data == 'string' || url_or_raw_data instanceof String) {
+        url = url_or_raw_data;
+    } else {
+        raw_data = url_or_raw_data;
+    }
+
+    var config = {
+        container: container,
+        type: 'line',
+        title: 'PR opened/resolved Catchup',
+        subtitle: subtitle,
+        xAxis: {
+            tickInterval: 2
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'PR number'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        url: url,
+        raw_data: raw_data,
         transform: transform
     }
     chart(config);
@@ -104,4 +113,17 @@ function transform_level_state(data) {
     })
 
     return series;
+}
+
+function transform_date_daily(data) {
+    return generate_date_stats(data, 'daily', true);
+}
+
+
+function transform_date_weekly(data) {
+    return generate_date_stats(data, 'weekly', true);
+}
+
+function transform_date_monthly(data) {
+    return generate_date_stats(data, 'monthly', true);
 }
