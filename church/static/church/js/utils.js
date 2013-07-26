@@ -41,7 +41,7 @@ function generate_date_stats(data, type, accumulate) {
     }
 
     function date_valid(dt) { return moment().year() == moment(dt).year();}
-    function resolved(state) { return _.indexOf(['feedback', 'monitored', 'suspended', 'closed'], item.state) >= 0}
+    function resolved(state) { return _.indexOf(['feedback', 'monitored', 'suspended', 'closed'], state) >= 0}
 
     _.each(data, function(item) {
         if (date_valid(item.arrived_at)) {
