@@ -40,17 +40,17 @@ function generate_date_stats(data, type, accumulate) {
         series[1].data.push(0);
     }
 
+    function date_valid(dt) { return moment().year() == moment(dt).year();}
+    function resovled(state) { return _.indexOf(['feedback', 'monitored', 'suspended', 'closed'], item.state) >= 0}
+
     _.each(data, function(item) {
-        if (moment().year() != moment(item.arrived_at).year()) return;
-        var pos_opened = TYPES[type].fun(item.arrived_at);
-        if (pos_opened == 50) {
-            console.log(item.arrived_at);
+        if (date_valid(item.arrived_at)) {
+            var pos_opened = TYPES[type].fun(item.arrived_at);
+            series[0].data[pos_opened]++;
+
         }
 
-
-        series[0].data[pos_opened]++;
-
-        if (_.indexOf(['feedback', 'monitored', 'suspended', 'closed'], item.state) >= 0) {
+        if (date_valid(item.modified_at) && resolved(item.state)) {
             var pos_resolved = TYPES[type].fun(item.modified_at);
             series[1].data[pos_resolved]++;
         }
