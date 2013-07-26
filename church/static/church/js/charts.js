@@ -40,7 +40,7 @@ function catchup_chart(url_or_raw_data, subtitle, transform) {
     var url = '';
     var raw_data = null;
 
-    var container = $('<div id="' + name + '" style="width: 100%; height: 400px; margin: 0 auto"></div>')
+    var container = $('<div id="' + name + '" style="width: 100%; height: 500px; margin: 0 auto"></div>')
         .appendTo('#tab-charts');
 
     if (typeof url_or_raw_data == 'string' || url_or_raw_data instanceof String) {

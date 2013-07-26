@@ -13,15 +13,15 @@ function list_accum(l) {
 function generate_date_stats(data, type, accumulate) {
     var TYPES = {
         'daily': {
-            len: moment().dayOfYear(),
+            len: moment().dayOfYear() + 1,
             fun: function(x) {return moment(x).dayOfYear();}
         },
         'weekly': {
-            len: moment().week(),
+            len: moment().week() + 1,
             fun: function(x) {return moment(x).week();}
         },
         'monthly': {
-            len: moment().month() + 1,
+            len: moment().month() + 1 + 1,
             fun: function(x) {return moment(x).month() + 1;}
         }
     }
