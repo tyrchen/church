@@ -27,10 +27,10 @@ function generate_date_stats(data, type, accumulate) {
     }
 
     var series = [{
-        name: 'Opened',
+        name: 'Created',
         data: []
     }, {
-        name: 'Resolved',
+        name: 'Closed',
         data: []
     }];
 
@@ -41,18 +41,24 @@ function generate_date_stats(data, type, accumulate) {
     }
 
     function date_valid(dt) { return moment().year() == moment(dt).year();}
-    function resolved(state) { return _.indexOf(['feedback', 'monitored', 'suspended', 'closed'], state) >= 0}
+    function get_pos(dt) {
+        var this_year = moment().year();
+        var dt_year = moment(dt).year();
+        var pos = 0;
+        if (this_year < dt_year) {
+            pos = TYPES[type].len - 1;
+        } else if (this_year == dt_year) {
+            pos = TYPES[type].fun(dt);
+        }
+        return pos;
+    }
+    function resolved(state) { return _.indexOf(['closed'], state) >= 0}
 
     _.each(data, function(item) {
-        if (date_valid(item.arrived_at)) {
-            var pos_opened = TYPES[type].fun(item.arrived_at);
-            series[0].data[pos_opened]++;
+        series[0].data[get_pos(item.arrived_at)]++;
 
-        }
-
-        if (date_valid(item.modified_at) && resolved(item.state)) {
-            var pos_resolved = TYPES[type].fun(item.modified_at);
-            series[1].data[pos_resolved]++;
+        if (resolved(item.state)) {
+            series[1].data[get_pos(item.modified_at)]++;
         }
     });
 

@@ -24,7 +24,7 @@ function state_distribution_chart(url_or_raw_data, subtitle, transform) {
         yAxis: {
             min: 0,
             title: {
-                text: 'PR number'
+                text: 'PR numbers'
             }
         },
         url: url,
@@ -52,15 +52,18 @@ function catchup_chart(url_or_raw_data, subtitle, transform) {
     var config = {
         container: container,
         type: 'line',
-        title: 'PR opened/resolved Catchup',
+        title: 'PR created/closed Catchup',
         subtitle: subtitle,
         xAxis: {
-            tickInterval: 2
+            tickInterval: 2,
+            title: {
+                text: 'Weeks'
+            }
         },
         yAxis: {
             min: 0,
             title: {
-                text: 'PR number'
+                text: 'PR numbers'
             },
             plotLines: [{
                 value: 0,
